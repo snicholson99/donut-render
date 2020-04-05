@@ -1,5 +1,31 @@
 const backgroundColor = 0x000000;
 
+var input = document.querySelector('#file-input');
+
+input.onchange = function(event) {
+  loadStyuff(input.files)
+}
+
+function loadStyuff (fileMap) {
+  console.log(fileMap);
+  
+  var rootFile;
+  var rootPath;
+    if (fileMap[0].name.match(/\.(gltf|glb)$/)) {
+      rootFile = fileMap[0];
+    }
+
+  view(rootFile, rootPath, fileMap);
+}
+
+
+function view (rootFile, rootPath, fileMap) {
+
+  const fileURL = typeof rootFile === 'string'
+    ? rootFile
+    : URL.createObjectURL(rootFile);
+
+
 var renderCalls = [];
 function render () {
   requestAnimationFrame( render );
@@ -61,16 +87,19 @@ scene.add( light2 );
 
 var loader = new THREE.GLTFLoader();
 loader.crossOrigin = true;
-loader.load( '../donut.gltf', function ( data ) {
+
 
   
+  loader.load( fileURL, function ( data ) {
+    
     var object = data.scene;
-     object.position.set(0, -10, -0.75);
-    TweenMax.from( object.position, 3, {
-      y: -8,
-      yoyo: true,
-      repeat: -1,
-      ease: 'Power2.easeInOut'
-    });
+    object.position.set(0, -10, -0.75);
+    // TweenMax.from( object.position, 3, {
+    //   y: -8,
+    //   yoyo: true,
+    //   repeat: -1,
+    //   ease: 'Power2.easeInOut'
+    // });
     scene.add( object );
-});
+  });
+}
