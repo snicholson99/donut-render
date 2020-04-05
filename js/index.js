@@ -61,7 +61,7 @@ scene.add( light2 );
 
 var loader = new THREE.GLTFLoader();
 loader.crossOrigin = true;
-loader.load( 'file:../donut.gltf', function ( data ) {
+loader.load( '../donut.gltf', function ( data ) {
 
   
     var object = data.scene;
